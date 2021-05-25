@@ -1,0 +1,38 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title>
+      Добавить транзакцию
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card class="ion-align-items-center">
+    <ion-card-header>
+      <ion-card-subtitle>Тип транзакции</ion-card-subtitle>
+      <ion-card-title>Расход</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="expenseData">
+        <ion-item>
+          <ion-icon slot="start" name="remove" color="danger"></ion-icon>
+          <ion-input formControlName="name" type="text" placeholder="Введите данные"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-img slot="start" src="../../../../assets/currency/currency_kzt_icon.svg"></ion-img>
+          <ion-input formControlName="amount" type="number" placeholder="Введите кол-во"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-icon slot="start" name="calendar-number-outline" color="primary"></ion-icon>
+          <ion-datetime formControlName="date" [(ngModel)]="myDate" displayFormat="YYYY-MM-DDTHH:mm" placeholder="Год | Месяц | День | Время"></ion-datetime>
+        </ion-item>
+        <ion-button expand="block" (click)="submit()" [disabled]="!expenseData.valid">Готово</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,97 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Бюджет</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="editData = true" *ngIf="!editData">
+        <ion-icon name="pencil"></ion-icon>
+      </ion-button>
+      <ion-button (click)="presentAlertConfirm()" *ngIf="editData">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="editData = false" *ngIf="editData">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="createData = false" *ngIf="createData">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="createData = true" *ngIf="!createData">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-row *ngIf="!createData">
+    <ion-col size-md="6" offset-md="3">
+      <ion-card class="ion-margin" *ngFor="let item of budgetProgress">
+        <ion-card-header>
+          <ion-card-subtitle>{{ item.title }}</ion-card-subtitle>
+          <ion-card-title>{{ item.amount | currency:'KZT '}}</ion-card-title>
+          <ion-text color="medium" class="ion-padding-top">{{ ((+item.amount * 100) / +item.goal).toFixed(1) }}%</ion-text>
+          <ion-text color="medium" class="ion-float-end">{{ item.goal | currency:'KZT ' }}</ion-text>
+          <ion-progress-bar buffer="0" type="determinate" color="secondary" [value]="+item.amount / +item.goal"></ion-progress-bar>
+        </ion-card-header>
+        <ion-card-content *ngIf="editData">
+          <ion-button (click)="deleteBudget(item.id)" color="danger" fill="clear">
+            <ion-icon slot="start" name="trash"></ion-icon>
+            Удалить
+          </ion-button>
+          <ion-button (click)="changeData = !changeData" color="warning" fill="clear">
+            <ion-icon slot="start" name="pencil"></ion-icon>
+            Изменить
+          </ion-button>
+        </ion-card-content>
+        <form [formGroup]="goal" (submit)="editBudget(item.id)" *ngIf="changeData">
+          <ion-item>
+            <ion-label position="floating" color="medium">Цель накопления: {{ item.title }}</ion-label>
+            <ion-input [value]="item.title" type="text" formControlName="title"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating" color="medium">Сумма на данной момент: {{ item.amount }}</ion-label>
+            <ion-input type="number" formControlName="amount"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating" color="medium">Конечная необходимая сумма: {{ item.goal }}</ion-label>
+            <ion-input type="number" formControlName="goal"></ion-input>
+          </ion-item>
+          <ion-button class="ion-margin-top" type="submit" expand="full">Сохранить</ion-button>
+        </form>
+      </ion-card>
+      <!-- <ion-card style="position: absolute; top: 50%; border: 2px solid;">
+        <ion-card-header class="ion-text-center">
+          <ion-buttons slot="end">
+            <ion-button (click)="onClick()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <ion-img src="../../../assets/svg/card-components.svg"></ion-img>
+          <ion-card-title color="medium">Нет данных...</ion-card-title>
+        </ion-card-header>
+      </ion-card> -->
+    </ion-col>
+  </ion-row>
+  <ion-row style="position: absolute; top: 0;" *ngIf="createData">
+    <ion-col size-md="6" offset-md="3" class="ion-text-center" style="overflow-y: auto;">
+      <ion-img src="../../../../assets/svg/budget.svg"></ion-img>
+      <form [formGroup]="goal" (submit)="submit($event)">
+        <ion-item>
+          <ion-label position="floating" color="medium">Цель накопления</ion-label>
+          <ion-input type="text" formControlName="title"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating" color="medium">Сумма на данной момент</ion-label>
+          <ion-input type="number" formControlName="amount"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating" color="medium">Конечная необходимая сумма</ion-label>
+          <ion-input type="number" formControlName="goal"></ion-input>
+        </ion-item>
+        <ion-button class="ion-margin-top" type="submit" [disabled]="!goal.valid">Сохранить</ion-button>
+      </form>
+    </ion-col>
+  </ion-row>
+</ion-content>

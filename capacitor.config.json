@@ -1,0 +1,15 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "tabs",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0,
+      "launchAutoHide": true,
+      "backgroundColor": "#ffffff"
+    }
+  },
+  "cordova": {}
+}

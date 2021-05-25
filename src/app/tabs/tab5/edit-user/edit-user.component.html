@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Редактировать профиль</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row>
+    <ion-col size-md="6" offset-md="3" class="ion-text-center" style="overflow-y: auto;">
+      <ion-img src="../../../../assets/svg/profile.svg"></ion-img>
+      <form [formGroup]="user" (submit)="submit($event)">
+        <ion-item>
+          <ion-label position="floating" color="medium">Введите ваше имя</ion-label>
+          <ion-input type="text" formControlName="name"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating" color="medium">В чем ваша цель?</ion-label>
+          <ion-input type="text" formControlName="goal"></ion-input>
+        </ion-item>
+        <ion-button class="ion-margin-top" type="submit" [disabled]="!user.valid">Сохранить</ion-button>
+      </form>
+    </ion-col>
+  </ion-row>
+</ion-content>

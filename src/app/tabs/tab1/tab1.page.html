@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Транзакции</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="editTransaction = true" *ngIf="!editTransaction">
+        <ion-icon name="pencil"></ion-icon>
+      </ion-button>
+      <ion-button (click)="clearAllDataConfirm()" *ngIf="editTransaction">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="editTransaction = false" *ngIf="editTransaction">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+      <!-- <ion-button (click)="createTransaction = false" *ngIf="createTransaction">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="createTransaction = true" *ngIf="!createTransaction">
+        <ion-icon name="add"></ion-icon>
+      </ion-button> -->
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-card *ngFor="let item of transactions">
+    <ion-card-header>
+      <ion-icon size="large" [name]="item['type']" [color]="item['type'] == 'trending-up' ? 'success' : 'danger'"></ion-icon>
+      <ion-card-title>
+        {{ item['name'] }}
+        <ion-text class="ion-float-right" [color]="item['type'] == 'trending-up' ? 'success' : 'danger'">
+          {{item['type'] == 'trending-up' ? '+' : '-'}} {{ item['amount'] | currency:'KZT ':'code' }}
+        </ion-text>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      {{ item['date'] | date:'medium' }}
+      <ion-buttons *ngIf="editTransaction" class="ion-padding-top ion-padding-horizontal">
+        <ion-button (click)="deleteTransactionConfirm(item)" color="danger" fill="clear" expand="block" style="margin: 0 auto;">
+          <ion-icon slot="start" name="trash"></ion-icon>
+          Удалить
+        </ion-button>
+        <!-- <ion-button (click)="changeTransaction = !changeTransaction" color="warning" fill="clear">
+          <ion-icon slot="start" name="pencil"></ion-icon>
+          Изменить
+        </ion-button> -->
+      </ion-buttons>
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="!transactions">
+    <ion-card-header class="ion-text-center">
+      <ion-img src="../../../assets/svg/card-components.svg"></ion-img>
+      <ion-card-title color="medium">Нет данных...</ion-card-title>
+    </ion-card-header>
+  </ion-card>
+</ion-content>

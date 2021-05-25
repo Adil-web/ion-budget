@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Статистика</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-text>В разработке...</ion-text>
+  <div class="chart-container">
+    <canvas id="mychart">{{ chart }}</canvas>
+  </div>
+  <ion-button (click)="changeData()" expand="block" fill="clear" shape="round">
+    Click me
+  </ion-button>
+</ion-content>
